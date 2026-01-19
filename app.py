@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
-from pandasai import SmartDataframe
-from pandasai.llm import OpenAI
+from pandasai import Agent
+from openai import OpenAI
 import yaml
 import os
 
@@ -14,6 +14,41 @@ def load_config():
             return yaml.safe_load(f)
     except FileNotFoundError:
         return {"api_key": "", "model_name": "xiaomi/mimo-v2-flash:free"}
+
+
+class OpenRouterLLM:
+    """Custom LLM class for OpenRouter API compatibility with PandasAI 3.0"""
+    
+    def __init__(self, api_key: str, model: str):
+        self.api_key = api_key
+        self.model = model
+        self.client = OpenAI(
+            base_url="https://openrouter.ai/api/v1",
+            api_key=api_key
+        )
+    
+    @property
+    def type(self) -> str:
+        return "openrouter"
+    
+    def call(self, instruction: str, context: str = None, suffix: str = "") -> str:
+        """Generate a response from the LLM."""
+        prompt = instruction
+        if context:
+            prompt = f"{context}\n\n{instruction}"
+        if suffix:
+            prompt = f"{prompt}\n\n{suffix}"
+        
+        response = self.client.chat.completions.create(
+            model=self.model,
+            messages=[
+                {"role": "system", "content": "You are a helpful data analysis assistant. Generate Python code to answer questions about pandas DataFrames. Return only valid Python code without markdown formatting."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0
+        )
+        return response.choices[0].message.content
+
 
 def main():
     config = load_config()
@@ -66,18 +101,14 @@ def main():
                 else:
                     with st.spinner("Analyzing data..."):
                         try:
-                            # Initialize LLM with OpenRouter Base URL
-                            llm = OpenAI(
-                                api_token=api_key,
-                                api_base="https://openrouter.ai/api/v1",
-                                model=model_name
-                            )
+                            # Initialize custom OpenRouter LLM
+                            llm = OpenRouterLLM(api_key=api_key, model=model_name)
                             
-                            # Initialize SmartDataframe
-                            sdf = SmartDataframe(df, config={"llm": llm})
+                            # Initialize PandasAI Agent (v3.0 API)
+                            agent = Agent([df], config={"llm": llm})
                             
                             # Chat with data
-                            response = sdf.chat(query)
+                            response = agent.chat(query)
                             
                             # Display Response
                             st.success("Analysis Complete!")
