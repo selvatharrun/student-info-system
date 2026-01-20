@@ -1,9 +1,11 @@
 import streamlit as st
 import pandas as pd
 from pandasai import Agent
+from pandasai.llm import LLM
 from openai import OpenAI
 import yaml
 import os
+
 
 # Page Config
 st.set_page_config(page_title="Student Info System", page_icon="🎓", layout="wide")
@@ -16,7 +18,7 @@ def load_config():
         return {"api_key": "", "model_name": "xiaomi/mimo-v2-flash:free"}
 
 
-class OpenRouterLLM:
+class OpenRouterLLM(LLM):
     """Custom LLM class for OpenRouter API compatibility with PandasAI 3.0"""
     
     def __init__(self, api_key: str, model: str):
@@ -82,6 +84,25 @@ def main():
             # Load Data
             df = pd.read_excel(uploaded_file)
             
+            # Preprocess column names for PandasAI compatibility
+            # Must only contain letters, numbers, and underscores
+            import re
+            def clean_column_name(col):
+                # Replace spaces with underscores
+                col = str(col).strip().replace(' ', '_')
+                # Remove any character that isn't a letter, number, or underscore
+                col = re.sub(r'[^a-zA-Z0-9_]', '', col)
+                # Ensure it doesn't start with a number
+                if col and col[0].isdigit():
+                    col = '_' + col
+                return col
+            
+            df.columns = [clean_column_name(col) for col in df.columns]
+            
+            # Convert Aadhar number to string if it exists
+            if 'STUDENT_AADHAR_NUMBER' in df.columns:
+                df['STUDENT_AADHAR_NUMBER'] = df['STUDENT_AADHAR_NUMBER'].astype(str)
+                        
             # Display Raw Data Preview
             with st.expander("Preview Validated Data"):
                 st.dataframe(df.head())
