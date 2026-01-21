@@ -1,10 +1,10 @@
-# 🎓 Student Info System
+#Student Info System
 
 A Streamlit app to query student data using natural language powered by AI.
 
 ---
 
-## 🚀 Portable Version (No Installation Required)
+##Portable Version (No Installation Required)
 
 ### Step 1: Create the Portable Package (One-Time Setup)
 
@@ -27,11 +27,11 @@ This creates a `portable` folder (~600MB) containing:
 3. Double-click **`START_APP.bat`**
 4. Browser opens automatically at **http://localhost:8501**
 
-✅ **No Python installation or admin rights required!**
+ **No Python installation or admin rights required!**
 
 ---
 
-## 💻 Development Setup (Your Own PC)
+## Development Setup (Your Own PC)
 
 If you want to run directly without the portable package:
 
@@ -49,7 +49,7 @@ streamlit run app.py
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 1. Get an API key from [OpenRouter](https://openrouter.ai/)
 2. Enter your **OpenRouter API Key** in the sidebar
@@ -57,7 +57,7 @@ streamlit run app.py
 
 ---
 
-## 📝 Example Queries
+##Example Queries
 
 - "Show students from Chennai"
 - "Count students by gender"
@@ -67,7 +67,7 @@ streamlit run app.py
 
 ---
 
-## 📁 Project Structure
+##Project Structure
 
 ```
 student-info-system/
