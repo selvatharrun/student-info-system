@@ -2,8 +2,6 @@
 
 A Streamlit app to query student data using natural language powered by AI.
 
----
-
 ## Portable Version (No Installation Required)
 
 ### Step 1: Create the Portable Package (One-Time Setup)
@@ -29,7 +27,6 @@ This creates a `portable` folder (~600MB) containing:
 
  **No Python installation or admin rights required!**
 
----
 
 ## Development Setup (Your Own PC)
 
@@ -46,8 +43,6 @@ pip install -r requirements.txt
 # Run the app
 streamlit run app.py
 ```
-
----
 
 ## Configuration
 
