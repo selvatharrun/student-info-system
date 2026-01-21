@@ -1,10 +1,10 @@
-#Student Info System
+# Student Info System
 
 A Streamlit app to query student data using natural language powered by AI.
 
 ---
 
-##Portable Version (No Installation Required)
+## Portable Version (No Installation Required)
 
 ### Step 1: Create the Portable Package (One-Time Setup)
 
@@ -57,7 +57,7 @@ streamlit run app.py
 
 ---
 
-##Example Queries
+## Example Queries
 
 - "Show students from Chennai"
 - "Count students by gender"
@@ -67,7 +67,7 @@ streamlit run app.py
 
 ---
 
-##Project Structure
+## Project Structure
 
 ```
 student-info-system/
