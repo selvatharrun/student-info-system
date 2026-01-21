@@ -2,6 +2,10 @@
 
 A Streamlit app to query student data using natural language powered by AI.
 
+UI: 
+![ezgif-63415258511be5b6](https://github.com/user-attachments/assets/928e49d5-fda5-491a-b840-6c108995ca73)
+
+
 ## Portable Version (No Installation Required)
 
 ### Step 1: Create the Portable Package (One-Time Setup)
